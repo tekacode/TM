@@ -1,28 +1,31 @@
-const createTaskHtml= (id,name, description, assignedTo,dueDate, status="TODO") => {
+const createTaskHtml= (id,name,description,assignedTo,dueDate,status="TODO") => {
     const html = `
     <li class="list-group-item" id="${id}" data-task-id="${id}">
-    <button class='done-button'>Mark As Done</button>
-    <button class="delete-button btn btn-danger">Delete</button>
+
+        <button class='done-button'>Mark As Done</button>
+        <button class="delete-button btn btn-danger">Delete</button>
+
         <div class="d-flex w-100 mt-2 justify-content-between align-items-center">
             <h5>Task Name: ${name}</h5> <br>
-            
         </div>
         <div class="d-flex w-100 mt-2 justify-content-between align-items-center">
-        <small>Assigned To: ${description}</small>
+            <small>Assigned To: ${description}</small>
         </div>
         <div class="d-flex w-100 mt-2 justify-content-between align-items-center">
-        <small>Assigned To: ${assignedTo}</small>
+            <small>Assigned To: ${assignedTo}</small>
         </div>
         <div class="d-flex w-100 mt-2 justify-content-between align-items-center">
-        <small>Due date: ${dueDate}</small>
+            <small>Due date: ${dueDate}</small>
         </div>
         <div class="d-flex w-100 mt-2 justify-content-between align-items-center">
-        <small>Due date: ${status}</small>
+            <small>Due date: ${status}</small>
         </div>
+
     </li>
 `
 return html;
 }
+
 class TaskManager{
     constructor(id=0){
         this.tasks = [];
@@ -32,6 +35,7 @@ class TaskManager{
     addTask(name, description, assignedTo, due_date){
         this.currentId++;
         this.tasks.push({id:this.currentId,taskName:name.value, taskDesc:description.value,assignedTo:assignedTo.value,dueDate:due_date.value,status:'TODO'})
+        location.reload();
     }
 
     render(){
@@ -41,7 +45,7 @@ class TaskManager{
         for(let i =0; i< this.tasks.length; i++){
            let currentTask = this.tasks[i]; 
            let currentTime = new Date(currentTask.dueDate).toString();
-           let taskHtml = createTaskHtml(currentTask.id,currentTask.taskName, currentTask.taskDesc, currentTask.assignedTo,currentTime,currentTask.status,currentTask.id)
+           let taskHtml = createTaskHtml(currentTask.id,currentTask.taskName, currentTask.taskDesc, currentTask.assignedTo,currentTime,currentTask.status)
            tasksHtmlList.push(taskHtml)
         }
         
@@ -62,9 +66,9 @@ class TaskManager{
     }
 
     save(){
-        let tasksJson = localStorage.setItem('tasks',  JSON.stringify(''));
+        let tasksJson = localStorage.setItem('tasks',  JSON.stringify(this.tasks));
         let currentId = this.currentId;
-        localStorage.setItem('currentId',  JSON.stringify(currentId));
+        localStorage.setItem('currentId',JSON.stringify(currentId));
     }
 
     load(){
@@ -76,7 +80,22 @@ class TaskManager{
           if(localStorage.getItem("currentId") !== null){
             let currentId = JSON.parse(localStorage.getItem("currentId"))
             currentId = parseInt(currentId);
+            this.currentId = currentId;
           }
+
+    }
+
+    deleteTask(taskId){
+        let newTasks = []
+        for(let i =0; i < this.tasks.length; i++){
+            if(this.tasks[i] !== taskId){
+                newTasks.push(this.tasks[i]);
+            }
+        }
+        this.tasks = newTasks;
+        taskManager.save() //check
+        taskManager.render() //check
+
     }
 
 }
