@@ -10,6 +10,9 @@ const errorMessage = document.getElementById("error_message");
 const taskListElement = document.getElementById("task_list_element");
 
 const taskManager = new TaskManager();
+//taskManager.load()
+//taskManager.render()
+
 // Process inputs
 function processInput() {
 taskManager.render()
@@ -32,11 +35,37 @@ taskManager.render()
   }else{
     const taskHtml = createTaskHtml(taskName.value, taskDesc.value, assignedTo.value,duedate.value)
     taskManager.addTask(taskName,taskDesc,assignedTo,duedate)
+    taskManager.save()
     taskManager.render()
   }
 }
 
-// const taskListElement = document.getElementById("task_list_element");
-// taskListElement.addEventListener('click', (event) => { // "event" here is the event parameter
+const taskList = document.querySelector("#task_list_element");
 
-// });
+taskList.addEventListener('click', (event) => { // "event" here is the event parameter
+  if(event.target.classList == "done-button"){
+    //alert("yes")
+   let parentTask = event.target.parentElement.nodeName
+ 
+   let taskId = document.querySelector(parentTask).getAttribute('data-task-id')
+   taskId = parseInt(taskId);
+
+   let task = taskManager.getTaskById(taskId)
+
+   task.status = 'DONE'
+
+   taskManager.render()
+     // alert(taskId);
+  }
+
+  if(event.target.classList == 'delete-button'){
+    let parentTask = event.target.parentElement.nodeName
+      let taskId = document.querySelector(parentTask).getAttribute('data-task-id')
+      taskId = parseInt(taskId);
+      taskManager.deleteTask(taskId)
+      taskManager.save()
+      taskManager.render()
+  }
+  
+
+});
