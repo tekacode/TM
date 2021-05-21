@@ -39,20 +39,20 @@ const taskList = document.querySelector("#task_list_element");
 taskList.addEventListener('click', (event) => { 
     if(event.target.classList == "done-button"){
     let parentTask = event.target.parentElement.nodeName
-    
+    console.log(parentTask)
     let taskId = document.querySelector(parentTask).getAttribute('data-task-id')
-    taskId = parseInt(taskId);
+    taskId = Number(taskId);
 
     let task = taskManager.getTaskById(taskId)
 
-    task.status = 'DONE'
+    task.status = '<strong style="color:green;">DONE</strong>'
     taskManager.render()
   }
 
   if(event.target.classList == 'delete-button'){
     let parentTask = event.target.parentElement.nodeName
       let taskId = document.querySelector(parentTask).getAttribute('data-task-id')
-      taskId = parseInt(taskId);
+      taskId = Number(taskId);
       taskManager.deleteTask(taskId)
       taskManager.save()
       taskManager.render()

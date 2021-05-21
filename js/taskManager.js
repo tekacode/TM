@@ -3,7 +3,7 @@ const createTaskHtml= (id,name,description,assignedTo,dueDate,status="TODO") => 
     <li class="list-group-item" id="${id}" data-task-id="${id}">
 
         <button class='done-button'>Mark As Done</button>
-        <button class="delete-button btn btn-danger">Delete</button>
+        <button class="delete-button" style="border-color:red;">Delete</button>
 
         <div class="d-flex w-100 mt-2 justify-content-between align-items-center">
             <h5>Task Name: ${name}</h5> <br>
@@ -63,6 +63,7 @@ class TaskManager{
                 foundTask = this.tasks[i];
             }
         }
+        return foundTask
     }
 
     save(){
@@ -88,7 +89,7 @@ class TaskManager{
     deleteTask(taskId){
         let newTasks = []
         for(let i =0; i < this.tasks.length; i++){
-            if(this.tasks[i] !== taskId){
+            if(this.tasks[i].id !== taskId){
                 newTasks.push(this.tasks[i]);
             }
         }
