@@ -18,7 +18,7 @@ const createTaskHtml= (id,name,description,assignedTo,dueDate,status="TODO") => 
             <small>Due date: ${dueDate}</small>
         </div>
         <div class="d-flex w-100 mt-2 justify-content-between align-items-center">
-            <small>Due date: ${status}</small>
+            <small>Status: ${status}</small>
         </div>
 
     </li>

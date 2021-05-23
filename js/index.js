@@ -6,6 +6,7 @@ const duedate = document.getElementById("duedate");
 const taskListElement = document.getElementById("task_list_element");
 
 const taskManager = new TaskManager();
+
 taskManager.load()
 taskManager.render()
 
@@ -39,7 +40,7 @@ const taskList = document.querySelector("#task_list_element");
 taskList.addEventListener('click', (event) => { 
     if(event.target.classList == "done-button"){
     let parentTask = event.target.parentElement.nodeName
-    console.log(parentTask)
+    //console.log(parentTask)
     let taskId = document.querySelector(parentTask).getAttribute('data-task-id')
     taskId = Number(taskId);
 
